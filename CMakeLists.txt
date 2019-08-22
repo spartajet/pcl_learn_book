@@ -19,6 +19,7 @@ link_directories(${ARMADILLO_LIBRARIES})
 
 # 编译器设置
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+SET(VTK_LEGACY_SILENT ON)
 
 
 
