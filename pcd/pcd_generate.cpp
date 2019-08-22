@@ -12,22 +12,27 @@ using namespace std;
 int main(int argc, char **argv) {
     pcl::PointCloud<pcl::PointXYZ> cloud;
 
-
+	cout << "start read txt" << endl;
     mat points_mat;
     points_mat.load("1-1.txt", auto_detect);
-
+    const int points_count = points_mat.n_rows;
 // Fill in the cloud data
-    cloud.width = 5;
+    cloud.width = points_count;
     cloud.height = 1;
     cloud.is_dense = false;
-    cloud.points.resize(cloud.width * cloud.height);
-
+    cloud.points.resize(points_count);
+    for (int i = 0; i < points_count; ++i)
+    {
+		cloud.points[i].x = points_mat(i, 0);
+		cloud.points[i].y = points_mat(i, 1);
+		cloud.points[i].z = points_mat(i, 2);
+    }
+	
+	cout << "write pcd file" << endl;
     pcl::io::savePCDFileASCII("test_pcd.pcd", cloud);
     std::cerr << "Saved " << cloud.points.size() << " data points to test_pcd.pcd." << std::endl;
 
-    for (size_t i = 0; i < cloud.points.size(); ++i)
-        std::cerr << "    " << cloud.points[i].x << " " << cloud.points[i].y << " "
-                  << cloud.points[i].z << std::endl;
+
     system("pause");
     return (0);
 }
